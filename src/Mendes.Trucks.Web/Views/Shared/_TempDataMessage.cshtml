@@ -1,0 +1,45 @@
+@using Mendes.Trucks.Domain.Enums
+@using Mendes.Trucks.Domain.Extensions
+@{
+	string message = null;
+	IEnumerable<string> strMessages = null;
+
+	if (TempData.Peek(MessageType.Success.ToString()) != null)
+	{
+		message = TempData[MessageType.Success.ToString()] as string;
+	}
+
+	if (TempData.Peek(MessageType.Error.ToString()) != null)
+	{
+		strMessages = TempData[MessageType.Error.ToString()] as IEnumerable<string>;
+	}
+
+	var hasMessage = !message.IsNullOrWhiteSpace() || strMessages != null && strMessages.Any();
+}
+
+@if (hasMessage)
+{
+	<script>
+		$(function() {
+			var options = {
+				autoClose: true,
+				progressBar: true
+			};
+
+			var toast = new Toasty(options);
+			toast.configure(options);
+
+			@if (!message.IsNullOrWhiteSpace())
+			{
+				@Html.Raw($"toast.success('{message}');")
+			}
+			else if (strMessages != null && strMessages.Any())
+			{
+				foreach (var msg in strMessages)
+				{
+					@Html.Raw($"toast.error('{msg}');\n")
+				}
+			}
+		});
+	</script>
+}

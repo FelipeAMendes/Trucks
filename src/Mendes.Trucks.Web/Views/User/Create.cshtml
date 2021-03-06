@@ -1,0 +1,28 @@
+﻿@{
+	ViewData["Title"] = "Cadastro de Usuário";
+	const string urlList = "/users/list";
+}
+
+<div class="text-center">
+	<h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card">
+	<form asp-action="Create">
+		<div class="card-body">
+			<partial name="_User" />
+			<div class="card-footer text-right">
+				<partial name="_ComeBack" model="urlList" />
+				<button type="submit" class="btn btn-primary">Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script src="/lib/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+	<script src="/lib/password-score/dist/js/password-score.js"></script>
+	<script src="/lib/password-score/dist/js/password-score-options.js"></script>
+	<script src="/js/users/user.js"></script>
+}

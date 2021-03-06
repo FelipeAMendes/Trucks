@@ -1,0 +1,26 @@
+﻿@model Mendes.Trucks.Application.ViewModels.Trucks.TruckViewModel
+@{
+	ViewData["Title"] = "Cadastro de Caminhão";
+	const string urlList = "/";
+}
+
+<div class="text-center">
+	<h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card">
+	<form asp-action="Create">
+		<div class="card-body">
+			<partial name="_Truck" />
+			<div class="card-footer text-right">
+				<partial name="_ComeBack" model="urlList" />
+				<button type="submit" class="btn btn-primary">Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script src="/js/trucks/truck.js"></script>
+}

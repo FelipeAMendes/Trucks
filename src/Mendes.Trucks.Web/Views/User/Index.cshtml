@@ -1,0 +1,51 @@
+﻿@using Mendes.Trucks.Domain
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Mendes.Trucks.Application.ViewModels.Users.UserListViewModel>
+@{
+	ViewData["Title"] = "Listagem de Usuários";
+	var isAuthenticated = HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+	var elemsVisible = isAuthenticated || !MendesTrucksConfiguration.UseAuth;
+}
+
+<div class="text-center">
+	<h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card">
+	<div class="card-body">
+		<table class="table table-hover text-dark">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">CPF</th>
+					<th scope="col">Nome Completo</th>
+					<th scope="col">E-mail</th>
+					<th scope="col">Opção</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var userViewModel in Model)
+				{
+					<tr>
+						<th scope="row">@userViewModel.Id</th>
+						<td>@userViewModel.Cpf</td>
+						<td>@userViewModel.Name</td>
+						<td>@userViewModel.Email</td>
+						@if (elemsVisible)
+						{
+							<td><a class="btn btn-outline-secondary" href="/users/edit/@userViewModel.Id">Editar</a></td>
+							<td><a class="btn btn-outline-secondary" href="/users/delete/@userViewModel.Id">Excluir</a></td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="card-footer text-right">
+			@if (elemsVisible)
+			{
+				<a class="btn btn-outline-secondary" href="/users/create">Novo Usuário</a>
+			}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+﻿@using Mendes.Trucks.Domain.Enums
+@using Mendes.Trucks.Web.Controllers
+@model Mendes.Trucks.Application.ViewModels.Trucks.TruckViewModel
+@{
+	var listModels = BaseController.GetEnumList(typeof(TruckModel)).ToList();
+	var listItem = new SelectListItem("Selecione", "-1,", true);
+	listModels.Insert(0, listItem);
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row">
+	<div class="col-3">
+		<div class="form-group">
+			<label asp-for="TruckModel"></label>
+			<select asp-for="TruckModel" asp-items="@listModels" class="form-control"></select>
+			<span asp-validation-for="TruckModel" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="col">
+		<div class="form-group">
+			<label asp-for="ManufactureYear" class="control-label"></label>
+			<input asp-for="ManufactureYear" class="form-control" readonly />
+			<span asp-validation-for="ManufactureYear" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="col">
+		<div class="form-group">
+			<label asp-for="ModelYear" class="control-label"></label>
+			<input asp-for="ModelYear" class="form-control" />
+			<span asp-validation-for="ModelYear" class="text-danger"></span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,51 @@
+﻿@using Mendes.Trucks.Domain
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Mendes.Trucks.Application.ViewModels.Trucks.TruckListViewModel>
+@{
+	ViewData["Title"] = "Listagem de Caminhões";
+	var isAuthenticated = HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+	var elemsVisible = isAuthenticated || !MendesTrucksConfiguration.UseAuth;
+}
+
+<div class="text-center">
+	<h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card">
+	<div class="card-body">
+		<table class="table table-hover text-dark">
+			<thead>
+				<tr>
+					<th scope="col">Código</th>
+					<th scope="col">Modelo</th>
+					<th scope="col">Ano de Fabricação</th>
+					<th scope="col">Ano Modelo</th>
+					<th scope="col">Opção</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var truckViewModel in Model)
+				{
+					<tr>
+						<th scope="row">@truckViewModel.Id</th>
+						<td>@truckViewModel.TruckModel</td>
+						<td>@truckViewModel.ManufactureYear</td>
+						<td>@truckViewModel.ModelYear</td>
+						@if (elemsVisible)
+						{
+							<td><a class="btn btn-outline-secondary" href="/trucks/edit/@truckViewModel.Id">Editar</a></td>
+							<td><a class="btn btn-outline-secondary" href="/trucks/delete/@truckViewModel.Id">Excluir</a></td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="card-footer text-right">
+			@if (elemsVisible)
+			{
+				<a class="btn btn-outline-secondary" href="/trucks/create">Novo Caminhão</a>
+			}
+		</div>
+	</div>
+</div>
